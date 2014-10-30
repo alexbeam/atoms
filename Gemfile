@@ -1,13 +1,6 @@
 source 'https://rubygems.org'
 
-group :development, :test do
-  gem 'sqlite3'
-end
-group :production do
-  gem 'pg'
-end
-
-gem 'heroku'
+gem 'pg'
 
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
