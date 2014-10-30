@@ -1,0 +1,110 @@
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/assets/normalize.css" media="screen" rel="stylesheet" />
+    <link href="/assets/demo.css" media="screen" rel="stylesheet" />
+    <link href="/assets/component.css" media="screen" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Raleway:200,400,800' rel='stylesheet' type='text/css'>
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container demo-1">
+      <div class="content">
+        <div id="large-header" class="large-header">
+          <canvas id="demo-canvas"></canvas>
+          <h1 class="main-title"><%= @atom.name %></h1>
+        </div>
+        <!-- <div class="codrops-top clearfix">
+          <a class="codrops-icon codrops-icon-prev" href="http://tympanus.net/Development/OffCanvasMenuEffects/"><span>Previous Demo</span></a>
+          <a class="codrops-icon codrops-icon-drop" href="http://tympanus.net/codrops/?p=20153"><span>Back to the Codrops Article</span></a>
+        </div> -->
+      </div>
+      <!-- Related demos -->
+      <section class="related">
+        <div class="element">
+          <div class="number"><%= @atom.number %></div>
+          <div class="symbol"><%= @atom.shortname %></div>
+          <div class="details"><%= @atom.name %><br><%= @atom.weight %></div>
+        </div>
+      <p>
+        <br>
+        <br>
+        <span style="font-size: 1.2em;">Your unique atom is<span><br>
+        <div style="font-size: 1.8em; padding-bottom: 10px;"><%= @num %>&nbsp;&nbsp;</div>
+      </p>
+      <a style="font-size: 0.8em; margin-top: -50px;" href="/atoms/<%= @atom.number %>/refresh">Request a new unique mass.</a>
+        <%= form_tag charges_path do |f|%>
+          <script src="https://checkout.stripe.com/checkout.js"></script>
+          <input name="number" type="hidden" value="<%= @atom.number %>">
+          <button id="customButton" class="ghost"><span class="thin">$ 1</span></button>
+
+
+         <script>
+            var handler = StripeCheckout.configure({
+            key: '<%= Rails.configuration.stripe[:publishable_key] %>',
+            image: '/assets/my_logo.png',
+            token: function(response) {
+              var tokenInput = $("<input type=hidden name=stripeToken />").val(response.id);
+              var emailInput = $("<input type=hidden name=stripeEmail />").val(response.email);
+              $("form").append(tokenInput).append(emailInput).submit();
+            }
+              });
+
+            document.getElementById('customButton').addEventListener('click', function(e) {
+              // Open Checkout with further options
+              handler.open({
+                name: "<%= @atom.name %> atom",
+                description: "Unique weight: <%= @num %>",
+                amount: 100
+              });
+              e.preventDefault();
+            });
+          </script>
+      <% end %>
+      <br><br>
+      <div id="content" class="descrip"><%= @cont %></div>
+
+    <script>
+      $( document ).ready(function() {
+        $("#content h1").replaceWith(function() { return this.innerHTML });
+        $("i").replaceWith(function() { return '<h2>' + this.innerHTML + '</h2>'});
+        $("#content img").remove();
+        $("#content a img").remove();
+        $("#content a").css({"color":"#000", cursor: "default"}).click(function(e){
+           e.preventDefault();
+        });
+        $("#content p").has("a").slice(-3).remove();
+        $("p").replaceWith(function() { return "<div class='replaced' style='margin-bottom: 15px;'>" + this.innerHTML + '</div>'});
+        $("h5").replaceWith(function() { return '<h2>' + this.innerHTML + '</h2>'});
+        $("em").replaceWith(function() { return '<h2>' + this.innerHTML + '</h2>'});
+        $("b").replaceWith(function() { return '<h2>' + this.innerHTML + '</h2>'});
+        $("#content br").replaceWith(function() { return this.innerHTML });
+    });
+    </script>
+
+
+    <script src="/assets/TweenLite.min.js"></script>
+    <script src="/assets/EasePack.min.js"></script>
+    <script src="/assets/rAF.js"></script>
+    <script src="/assets/demo-1.js"></script>
+  </body>
+</html>
+
+
+<!-- 
+<%= form_tag charges_path do %>
+  <article>
+    <label class="amount">
+      <span>Buy this Atom</span>
+    </label>
+  </article>
+
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-description="Atom"
+          data-amount="100"></script>
+<% end %> -->

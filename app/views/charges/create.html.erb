@@ -1,0 +1,12 @@
+<div id="content" class="descrip">
+<h2>Do not leave this page until you have downloaded your certificate of ownership.</h2>
+
+<%= @atom.name %><br>
+<%= @order.id %><br>
+<%= @unique %><br>
+<%= form_for(@order, :url => {:controller => "charges", :action => "index"}, :method => "GET") do |f| %>
+  <%= f.text_field :name %>
+  <%= f.hidden_field :order_id, :value => @order.id %>
+  <%= f.submit %>
+<% end %>
+</div>
